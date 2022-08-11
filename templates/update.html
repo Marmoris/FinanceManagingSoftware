@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update</title>
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename = 'mystyle.css')}}">
+
+</head>
+<body>
+    {%with messages = get_flashed_messages()%}
+        {%if messages %}
+            {%for msg in messages%}
+              <div class="alert" role="alert">
+                <h5>{{msg}}</h5>
+              </div>
+              <br>
+            {%endfor%}
+        {%endif%}
+    {%endwith%}
+
+    <form action="{{url_for('dashboard')}}">
+        <input type="submit" value="🠈" class = "button"/>
+    </form>
+    <br>
+
+    <h2>Update</h2>
+    <form action="/update/{{change.id}}" method = 'POST'>
+            <input type = "text" name = "content" id = "content" value = "{{change.description}}">
+            <input type = "number" min = 0 step = "0.01" name = "amount" id = "amount" value = "{{change.amount}}" >
+            <input type = "submit" value = "Update" class = "button">
+    </form>
+
+</body>
+</html>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings</title>
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename = 'mystyle.css')}}">
+
+</head>
+<body>
+
+    {%with messages = get_flashed_messages()%}
+        {%if messages %}
+            {%for msg in messages%}
+              <div class="alert" role="alert">
+                <h5>{{msg}}</h5>
+              </div>
+              <br>
+            {%endfor%}
+        {%endif%}
+    {%endwith%}
+
+    <form action="{{url_for('dashboard')}}">
+        <input type="submit" value="🠈" class = "button" />
+    </form><br><br>
+    <h1>Settings Page</h1>
+    
+    <form action="{{url_for('confirmReset')}}">
+        <input type="submit" value="Reset All Data" class = "button" />
+    </form><br>
+
+    
+    <h2>Create sections for your finances</h2>
+    <p>For more information, please refer to the help page.</p>
+    <form method="POST" action="">
+        {{ form.csrf_token }}
+        {{ form.body(style = 'width:600px; height:350px;')}}
+        <br>
+        {{ form.submit(class = "button") }}
+    </form>
+
+    <br>
+    <h2>Sections:</h2>
+ 
+    {%if form.body.data == None%}
+        {%if myUser.dropDownText == ""%}
+            <p>No sections have been created. Please enter desired sections in the text editor above. </p>
+        {%else%}
+            {% for i in myUser.dropDownText.split("\n")%}
+                {%if i == "\r"%}
+                    <br>
+                {%else%}
+                    <p>{{i}}</p>
+                {%endif%}
+            {%endfor%}
+        {%endif%}
+    {%else%}
+        {% for i in myUser.dropDownText.split("\n")%}
+            {%if i == "\r"%}
+                <br>
+            {%else%}
+                <p>{{i}}</p>
+            {%endif%}
+        {%endfor%}
+    {%endif%}
+    <br>
+
+    <form action="{{url_for('confirm')}}">
+        <input type="submit" value="Delete This Account" class = "button" />
+    </form>
+
+    <br>
+
+    
+</body>
+
+</html>

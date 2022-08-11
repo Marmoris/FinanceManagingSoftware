@@ -1,0 +1,114 @@
+@font-face {
+    font-family: "DMSerifDisplay";
+    src: url(DMSerifDisplay-Regular.ttf);
+}
+
+@font-face {
+    font-family: "QuicksandBold";
+    src: url(Quicksand-Bold.ttf);
+}
+
+@font-face {
+    font-family: "Quicksand";
+    src: url(Quicksand-Regular.ttf);
+}
+
+h1{
+    font-family: "DMSerifDisplay", serif;
+    font-size: 35px;
+    text-decoration: none;
+    color: #030182;
+}
+
+h2{
+    font-family: "QuicksandBold", Arial;
+    font-size: 20px;
+    text-decoration: none;
+    color: #E7CC1E;
+}
+
+h5{
+    font-family: "Quicksand", Arial;
+    font-size: 15px;
+    text-decoration: none;
+    color: #A59212;
+}
+
+h3{
+    font-family: "QuicksandBold", Arial;
+    font-size: 15px;
+    text-decoration: none;
+    color: #ffffff;
+}
+
+h4{
+    font-family: "QuicksandBold", Arial;
+    font-size: 20px;
+    text-decoration: none;
+    color: #000000;
+}
+
+p{
+    font-family: "Quicksand", Arial;
+    font-size: 15px;
+    text-decoration: none;
+    color: #000000;
+}
+
+input{
+    font-family: "Quicksand", Arial;
+    font-size: 15px;
+    text-decoration: none;
+    color: #000000;
+}
+
+.button{
+    background-color: #E6DACF;
+    border: none;
+    padding: 5px 15px;
+    font-family: "Quicksand", Arial;
+    border-radius: 6px;
+    color: #946F4C;
+
+}
+
+.input{
+    padding: 5px 8px;
+    border: none;
+    border-bottom: 2px solid #E6DACF;
+
+}
+
+.parent {
+    text-align: left;
+}
+
+.child {
+    display: inline-block;
+    padding: 0.25rem;
+    vertical-align: middle;
+}
+
+.alert{
+    background-color: #EDD95A;
+    padding-top: 0.5px;
+    padding-right: 20px;
+    padding-bottom: 0.5px;
+    padding-left: 20px;
+}
+
+.top{
+    display: block;
+    margin: 20px;
+}
+
+.main {
+  padding: 5px;
+}
+
+td, th, button, option, select{
+    font-family: "Quicksand", Arial;
+    font-size: 15px;
+    text-decoration: none;
+    color: #000000;
+}

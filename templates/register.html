@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename = 'mystyle.css')}}">
+
+</head>
+<body>
+
+    {%with messages = get_flashed_messages()%}
+        {%if messages %}
+            {%for msg in messages%}
+              <div class="alert" role="alert">
+                <h5>{{msg}}</h5>
+              </div>
+              <br>
+            {%endfor%}
+        {%endif%}
+    {%endwith%}
+
+    <form action="{{url_for('login')}}">
+        <input type="submit" value="🠈" class = "button"/>
+    </form>
+
+    <center>
+    <h1>SIGN UP</h2>
+
+    <form method="POST" action="">
+        {{ form.hidden_tag() }}
+        {{ form.username(class_='input') }}
+        {{ form.password(class_='input') }}
+        <button type=submit class="button"><span title="Submit">Login</span></button>
+    </form>
+
+    </center>
+    
+</body>
+</html>

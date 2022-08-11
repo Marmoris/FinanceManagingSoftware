@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirm</title>
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename = 'mystyle.css')}}">
+
+</head>
+<body>
+    {%with messages = get_flashed_messages()%}
+        {%if messages %}
+            {%for msg in messages%}
+              <div class="alert" role="alert">
+                <h5>{{msg}}</h5>
+              </div>
+              <br>
+            {%endfor%}
+        {%endif%}
+    {%endwith%}
+
+    <h4>Are you sure you want to delete this account?</h4>
+
+    <div style="float:left; height:100px">
+        <form action="{{url_for('deleteUser', id = current_user.id)}}">
+            <input type="submit" value="YES" class = "button"/>
+        </form>
+    </div>
+    <div style="float:left; height:100px; margin:10px">
+    </div>
+    <div style="float:left; height:100px">
+        <form action="{{url_for('settings')}}">
+            <input type="submit" value="NO" class = "button"/>
+        </form>
+    </div>
+
+</body>
+</html>

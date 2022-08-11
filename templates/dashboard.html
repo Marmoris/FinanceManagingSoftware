@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename = 'mystyle.css')}}">
+</head>
+<body>
+    <div class = "top">
+
+        {%with messages = get_flashed_messages()%}
+            {%if messages %}
+                {%for msg in messages%}
+                <div class="alert" role="alert">
+                    <h5>{{msg}}</h5>
+                </div>
+                <br>
+                {%endfor%}
+            {%endif%}
+        {%endwith%}
+
+        <div class='parent'>
+            <div class='child'>
+                <form action="{{url_for('logout')}}">
+                    <input type="submit" value=" Logout" class = "button" />
+                </form>
+            </div>
+            <div class='child'>
+                <form action="{{url_for('settings')}}">
+                    <input type="submit" value="Settings" class = "button"/>
+                </form>
+            </div>
+        </div>
+        <br>
+        <h1>FINANCE MANAGER</h1>
+        
+        <table>
+        {%for dropdown in getList(dictionary, session["choices"])%}
+            {%if dropdown != []%}
+                <tr>
+                    <form class="form-inline" method="POST">
+                        <td>
+                            <select style = "width: 100%" name="dropDownChoice" class="selectpicker form-control">
+    
+                                <option value="{{makeRightOrder(dropdown, session["choices"][getPlacement(dropdown[0])-1])[0]}}" selected>{{getSectionText(makeRightOrder(dropdown, session["choices"][getPlacement(dropdown[0])-1])[0])}}</option>
+                                    {%for sect in makeRightOrder(dropdown, session["choices"][getPlacement(dropdown[0])-1])[1:]%}
+                                        <option value = "{{sect}}">{{getSectionText(sect)}}</option>
+                                    {%endfor%}
+                            </select>
+                        </td>
+                        <td>
+                            <button type="submit" class="button">Go</button>
+                        </td>
+                    </form>
+                </tr>
+            {%endif%}
+        {%endfor%}
+        </table>
+
+        <br>
+        <form action="{{url_for('allData')}}">
+            <input type="submit" value="View all Data" class = "button" />
+        </form>
+
+    </div>
+    
+    <div style="float:left; height: 50%; width:60%; padding: 20px;">
+
+        {%if changes|length<1%}
+                {%if myUser.dropDownText == ""%}
+                    <p> No sections have been created. Please go to the settings page to create some sections for your finances. </p>
+                {%else%}
+                    <p> No data has been entered. Enter data to the right.</p>
+                {%endif%}
+        {% else %}
+            <table width = "98%" border= "1px solid" bordercolor="#2E8A7F" style="border-collapse: collapse" class = "main">
+                <colgroup>
+                    <col span = "1" style = "width: 12%">
+                    <col span = "1" style = "width: 70%">
+                    <col span = "1" style = "width: 10%">
+                    <col span = "1" style = "width: 8%">
+                </colgroup>
+                <tbody>
+                    <tr class = "main">
+                        <th style="background-color: #A6E1DA;" class = "main">DATE</th>
+                        <th style="background-color: #A6E1DA;" class = "main">DESCRIPTION</th>
+                        <th style="background-color: #A6E1DA;" class = "main">AMOUNT</th>
+                        <th style="background-color: #A6E1DA;" class = "main"> </th>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div style = "height: 500px; overflow-y:scroll;">
+                <table width = "100%" border= "1px solid" bordercolor="#2E8A7F" style="border-collapse: collapse" class = "main">
+                    <colgroup>
+                        <col span = "1" style = "width: 12%">
+                        <col span = "1" style = "width: 70%">
+                        <col span = "1" style = "width: 10%">
+                        <col span = "1" style = "width: 8%">
+                    </colgroup>
+                    <tbody>
+    
+                        {% for change in changes%}
+                            {%if change.user_id == currUser and checkInWami(session["choices"], change.wami)%}
+                                <tr class = "main">
+                                    <td class = "main">{{change.date}}</td>
+                                    <td class = "main">{{change.description}}</td>
+                                    <td class = "main">${{change.amount}}</td>
+                                    <td class = "main">
+                                        <a href = "/delete/{{change.id}}">Delete</a>
+                                        <br>
+                                        <a href ="/update/{{change.id}}">Update</a>
+                                    </td>
+                                </tr>
+                            {%endif%}
+                        {%endfor%}
+                    </tbody>
+                </table>
+            </div>
+        {%endif%}
+    </div>
+    <div style="float:left; width: 30%">
+        {% if createWami(session["choices"]) not in getAllWamis(allBudgets) %}
+            {%if getSectionType(createWami(session["choices"])) == "I"%}
+                <h2>Income Goal </h2>
+                <p>Create an Income Goal: </p>
+                <form action="/dashboard" method = 'POST'>
+                    <input style = 'width:80px' type = "number" min = 0 step = "0.01" name = "budgetAmount" id = "budgetAmount">
+                    <input class = "button" type = "submit" value = "Create">
+                </form>
+                <br>
+            {%elif getSectionType(createWami(session["choices"])) == "E"%}
+                <br><h2>Budget</h2>
+                <p>Create a Budget: </p>
+                <form action="/dashboard" method = 'POST'>
+                    <input style = 'width:80px' type = "number" min = 0 step = "0.01" name = "budgetAmount" id = "budgetAmount">
+                    <input class = "button" type = "submit" value = "Create">
+                </form>
+                <br>
+            {%endif%}
+        {%else%}
+            {%if getSectionType(createWami(session["choices"])) == "I"%}
+                <br><h2>Income Goal</h2>
+
+                <table>
+                    <tr>
+                        <td>${{allBudgets[getAllWamis(allBudgets).index(createWami(session["choices"]))].amount}}</td>
+                        <td>
+                            <a href = "/deleteBudget/{{allBudgets[getAllWamis(allBudgets).index(createWami(session["choices"]))].id}}">Delete</a>
+                        </td>
+                        <td>
+                            <a href ="/updateBudget/{{allBudgets[getAllWamis(allBudgets).index(createWami(session["choices"]))].id}}">Update</a>
+                        </td>
+                    </tr>
+                </table>
+                <br>
+                <p>Amount Left to Goal: ${{allBudgets[getAllWamis(allBudgets).index(createWami(session["choices"]))].amount - calculateTotal(changes, currUser)}}</p>
+            
+            {%elif getSectionType(createWami(session["choices"])) == "E"%}
+                <br><h2>Budget Goal</h2>
+                <table>
+                    <tr>
+                        <td>${{allBudgets[getAllWamis(allBudgets).index(createWami(session["choices"]))].amount}}</td>
+                        <td>
+                            <a href = "/deleteBudget/{{allBudgets[getAllWamis(allBudgets).index(createWami(session["choices"]))].id}}">Delete</a>
+                        </td>
+                        <td>
+                            <a href ="/updateBudget/{{allBudgets[getAllWamis(allBudgets).index(createWami(session["choices"]))].id}}">Update</a>
+                        </td>
+                    </tr>
+                </table>
+                <br>
+                <p>Amount Left in Budget: ${{allBudgets[getAllWamis(allBudgets).index(createWami(session["choices"]))].amount - calculateTotal(changes, currUser)}}</p>
+            
+            {%endif%}
+        {%endif%}
+
+        {%if session["choices"]!=[] and getList(dictionary, session["choices"])[-1] == []%}
+            
+            <h2>Add Data: </h2>
+            <table>
+                <tr>
+                    <th>DESCRIPTION</th>
+                    <th>AMOUNT</th>
+                </tr>
+                <form action="/dashboard" method = 'POST'>
+                        <tr>
+                            <td><input style = 'width:300px' type = "text" name = "content" id = "content"></td>
+                            <td><input style = 'width:80px' type = "number" min = 0 step = "0.01" name = "amount" id = "amount"></td>
+                            <td><input class = "button" type = "submit" value = "Add"></td>
+                        </tr>
+                </form>
+            </table>
+        {%endif%}
+        <br>
+        
+        <h2>Total Balance: </h2>
+        <p>{{myUser.totalMoney}}</p>
+        
+        <h2>Section Statistics:</h2>
+        <p>Total: {{calculateTotal(changes, currUser)}}</p>
+        <p>Average: {{calculateAverage(changes, currUser)}}</p>
+        <p>Largest: ${{getLargest(changes, currUser)[0]}} ({{getLargest(changes, currUser)[-1]}})</p>
+        <p>Smallest: ${{getSmallest(changes, currUser)[0]}} ({{getSmallest(changes, currUser)[-1]}}) </p>
+    </div>
+    
+
+</body>
+</html>
