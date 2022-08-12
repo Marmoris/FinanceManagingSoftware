@@ -13,7 +13,7 @@ from datetime import datetime
 app = Flask(__name__)
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://kuvbispuxfbmdx:893603aafcf166d13ef0dd28e610d2e12e4368658eb76867195bbe7e2d06f408@ec2-3-219-229-143.compute-1.amazonaws.com:5432/d6cprjq42518ki'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://kuvbispuxfbmdx:893603aafcf166d13ef0dd28e610d2e12e4368658eb76867195bbe7e2d06f408@ec2-3-219-229-143.compute-1.amazonaws.com:5432/d6cprjq42518ki'
 app.config['SECRET_KEY'] = 'thisisasecretkey'
 
 login_manager = LoginManager()
