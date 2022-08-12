@@ -13,7 +13,7 @@ from datetime import datetime
 app = Flask(__name__)
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://wcykdfjjnwaqnj:191b7679ef3638be8b194529370edf8c0b5a08dd9a06b062b8326c5c45461962@ec2-34-193-44-192.compute-1.amazonaws.com:5432/ddufkbi9g63a29'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://kuvbispuxfbmdx:893603aafcf166d13ef0dd28e610d2e12e4368658eb76867195bbe7e2d06f408@ec2-3-219-229-143.compute-1.amazonaws.com:5432/d6cprjq42518ki'
 app.config['SECRET_KEY'] = 'thisisasecretkey'
 
 login_manager = LoginManager()
@@ -28,7 +28,7 @@ class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(20), nullable=False, unique=True)
     password = db.Column(db.String(80), nullable=False)
-    dropDownText = db.Column(db.Text())
+    dropDownText = db.Column(db.Text)
     totalMoney = db.Column(db.REAL, nullable=False)
 
 class BudgetChange(db.Model):
