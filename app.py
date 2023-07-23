@@ -11,11 +11,11 @@ from datetime import datetime
 
 #Prep stuff
 app = Flask(__name__)
-db = SQLAlchemy(app)
-bcrypt = Bcrypt(app)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://kuvbispuxfbmdx:893603aafcf166d13ef0dd28e610d2e12e4368658eb76867195bbe7e2d06f408@ec2-3-219-229-143.compute-1.amazonaws.com:5432/d6cprjq42518ki'
-app.config['SECRET_KEY'] = 'thisisasecretkey'
 
+bcrypt = Bcrypt(app)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
+app.config['SECRET_KEY'] = 'thisisasecretkey'
+db = SQLAlchemy(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login'
@@ -76,7 +76,7 @@ class DropdownForm(FlaskForm):
     body = StringField('Body', widget = TextArea())
     submit = SubmitField('Submit')
 
-# My functions and related stuff
+# Helper Functions
 
 def makeDict(f):
     f = f.split("\n")
